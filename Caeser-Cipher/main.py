@@ -16,26 +16,16 @@ def encrypt(original_text, shift_amount):
 
     print(f"Here is encoded result :  {cipher_text}")
 
-encrypt(original_text=text, shift_amount=shift)
+# encrypt(original_text=text, shift_amount=shift)
 
-def decrypt():
-    text = input("Type your message to decrypt:\n").lower()
-    shift = int(input("Type the shift number to decrypt:\n"))
-    listing = list(text)
-    # print(listing)
-    output_listing = []
-    for i in listing:
-        if i in alphabet:
-            character_index = alphabet.index(i)
-            listing_output_index = character_index-shift
-            listing_output_index_value = alphabet[listing_output_index]
-            # print(listing_output_index_value)
-            output_listing.append(listing_output_index_value)
-        else:
-            print("Enter valid characters to decrypt")
+def decrypt(original_text, shift_amount):
+    output_text = ""
+    for letter in original_text:
+       shifted_position = alphabet.index(letter) - shift_amount
+       shifted_position %= len(alphabet)
+       output_text += alphabet[shifted_position]
 
-    # print(output_listing)
-    decrypt_output = "".join(output_listing)
-    print(f"Decrypted Message: {decrypt_output}")
 
-decrypt()
+    print(f"Here is decoded result :  {output_text}")
+
+decrypt(original_text=text, shift_amount=shift)
