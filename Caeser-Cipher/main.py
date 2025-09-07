@@ -4,28 +4,18 @@ direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n").lower
 text = input("Type your message:\n").lower()
 shift = int(input("Type the shift number:\n"))
 
-def encrypt(original_text, shift_amount):
-    cipher_text = ""
+def caeser(original_text, shift_amount, encode_or_decode):
+    output_text = ""
     for letter in original_text:
+       
+       if encode_or_decode == "decode":
+           shift_amount *= -1
+
        shifted_position = alphabet.index(letter) + shift_amount
        # fixed shift of z or similar that gives Index error : list out of range 
        #    shifted_position = shifted_position % len(alphabet)
        shifted_position %= len(alphabet)
-       cipher_text += alphabet[shifted_position]
-
-
-    print(f"Here is encoded result :  {cipher_text}")
-
-# encrypt(original_text=text, shift_amount=shift)
-
-def decrypt(original_text, shift_amount):
-    output_text = ""
-    for letter in original_text:
-       shifted_position = alphabet.index(letter) - shift_amount
-       shifted_position %= len(alphabet)
        output_text += alphabet[shifted_position]
+    print(f"Here is the {encode_or_decode}d result :  {output_text}")
 
-
-    print(f"Here is decoded result :  {output_text}")
-
-decrypt(original_text=text, shift_amount=shift)
+caeser(original_text=text, shift_amount=shift, encode_or_decode=direction)
