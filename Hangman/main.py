@@ -1,8 +1,8 @@
 import random
 # import hangman_words
 # import hangman_art
-from hangman_words import word_list
-from hangman_art import stages,logo
+from words import word_list
+from art import stages,logo
 
 print(logo)
 
