@@ -2,7 +2,7 @@ import random
 
 print("WELCOME TO BLACKJACK GAME !!!")
 
-cards = [11,2,3,4,5,6,7,8,9,10,10,10]
+cards = [11,2,3,4,5,6,7,8,9,10,10,10,10]
 
 should_continue = True
 
@@ -46,13 +46,13 @@ def checker():
 def computerSumCheckFor21():
     global computersHand
     global computersum
-    if computersum < 21:
-                 computersHand +=random.choices(cards,k=1)
-                 computersum = sum(computersHand)
-                 if computersum >= 21:
-                      finalcheck(computersum,mysum)
-                 else:
-                      computerSumCheckFor21()
+    if computersum < 17:
+        computersHand +=random.choices(cards,k=1)
+        computersum = sum(computersHand)
+        if computersum >= 21:
+            finalcheck(computersum,mysum)
+        else:
+            computerSumCheckFor21()
 
 def firstGo():
     global computersum
@@ -62,7 +62,16 @@ def firstGo():
     computersHand = random.choices(cards,k=2)
     myHand = random.choices(cards,k=2)
     computersum = sum(computersHand)
-    mysum = sum(myHand)    
+    mysum = sum(myHand)
+    """Ace condition """
+    if 11 in cards and (mysum > 21 or computersum >21):
+      computersHand.remove(11)
+      computersHand.append(1)
+      myHand.remove(11)
+      myHand.append(1)
+      computersum = sum(computersHand)
+      mysum = sum(myHand)
+         
     ch = print(f"Computer card:  {random.choice(computersHand)}")
     cs = print(f"Computer complete Hand:  {computersHand}")
     print(f"Your cards:  {myHand}")
@@ -77,24 +86,32 @@ while should_continue:
             check()
             firstGo()
     
-    if checker():
-        computersHand +=random.choices(cards,k=1)
-        myHand +=random.choices(cards,k=1)
-        print(f"Computer Hand: {computersHand}")
-        print(f"My Hand: {myHand}")
-        cs2 = sum(computersHand)
-        mys = sum(myHand)
-        print(f"Computer Sum: {cs2}")
-        print(f"My Sum: {mys}")
-        if drawChecker(cs2,mys) == True:
-            print("Draw")
-            check()
-        else:
-            finalcheck(mys,cs2)
+    if mysum == 21:
+                print("You Won")
+                check()
+    elif computersum == 21:
+                print("Computer Won")
+                check()
 
+    if computersum > 21:
+        print("Computer Lost")
+    elif mysum > 21:
+        print("You Lose")
     else:
-        if mysum >= 21:
-             print("You Won")
+        if checker():
+            computersHand +=random.choices(cards,k=1)
+            myHand +=random.choices(cards,k=1)
+            print(f"Computer Hand: {computersHand}")
+            print(f"My Hand: {myHand}")
+            cs2 = sum(computersHand)
+            mys = sum(myHand)
+            print(f"Computer Sum: {cs2}")
+            print(f"My Sum: {mys}")
+            if drawChecker(cs2,mys) == True:
+                print("Draw")
+                check()
+            else:
+                finalcheck(mys,cs2)
         else:
             computerSumCheckFor21()
         
