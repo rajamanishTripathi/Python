@@ -24,6 +24,8 @@ MENU = {
     }
 }
 
+profit = 0
+
 resources = {
     "water": 300,
     "milk": 200,
@@ -40,7 +42,7 @@ def is_resource_sufficient(order_ingredients, resources):
             return False
     return True  #runs  after the loop — so it runs only if all items were checked and none failed.
 
-def ww(start):
+def processingCoffee(start):
     if is_resource_sufficient(MENU[start]["ingredients"], resources):
         print(f"Yes, enough resources to make a {start}!")
         print("Please insert coins:")
@@ -48,11 +50,13 @@ def ww(start):
         # print(MENU[start]["cost"])
         # print(cost)
         # print(resources)
+        global profit
         if cost == MENU[start]["cost"]:
             print(f"You have paid {cost} successfully.")
             for item in MENU[start]["ingredients"]:
                 resources[item] -= MENU[start]["ingredients"][item]
-            #print(resources)
+            profit += cost
+            #print(resources)         
         else:
             print("Please Pay the price")
     else:
@@ -62,19 +66,11 @@ def ww(start):
 while should_continue:
     start = input("What would you like? (espresso/latte/cappuccino):  ")
 
-    match start:
-        case "report":
-            for i,v in resources.items():
-               print(i+": ",v)
-
-        case "espresso":
-            ww(start)
-
-        case "latte":
-            ww(start)
-
-        case "cappuccino":
-            ww(start)
-            
-        case _:   # wildcard = "default"
-            print("Sorry, unknown choice")
+    if start == "off":
+        should_continue = False
+    elif start == "report":
+        resources.update({"amount": profit})
+        for i,v in resources.items():
+            print(i+": ",v)
+    else:
+        processingCoffee(start)
